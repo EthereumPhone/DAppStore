@@ -2,10 +2,12 @@
 pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract DAppStore {
-    address public owner;
-    uint public appID;
+contract DAppStore is Initializable {
+    // TODO: Replace with real address
+    address public owner = address(0);
+    uint256 public appID = 0;
     mapping(uint => address) appOwners;
     mapping(uint => string) appName;
     mapping(uint => string) appIPFSHash;
@@ -19,10 +21,8 @@ contract DAppStore {
         _;
     }
 
-    constructor() {
-        owner = msg.sender;
-        appID = 0;
-    }
+    constructor() initializer {}
+
     struct App {
         uint appID;
         address appOwner;
