@@ -6,4 +6,5 @@ data class DAppInfo(
     val apkUrl: String,
     val iconUrl: String,
     val description: String,
+    val category: String,
 )
