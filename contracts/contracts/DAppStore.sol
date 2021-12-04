@@ -12,6 +12,7 @@ contract DAppStore is Initializable {
     mapping(uint => string) appName;
     mapping(uint => string) appIPFSHash;
     mapping(uint => string) appAddData;
+    mapping(uint => uint) submitTime;
 
     event NewApp(uint appID, address appOwner, string appName, string appIPFSHash, string appAddData);
     event UpdateApp(uint appID, address appOwner, string appName, string appIPFSHash, string appAddData);
@@ -31,25 +32,31 @@ contract DAppStore is Initializable {
         string appAddData;
     }
 
-    function submitApp(string memory _name, string memory _ipfsHash, string memory _additionalData) public {
+    function submitDApp(string memory _name, string memory _ipfsHash, string memory _additionalData) public {
         appOwners[appID] = msg.sender;
         appName[appID] = _name;
         appIPFSHash[appID] = _ipfsHash;
         appAddData[appID] = _additionalData;
-        emit NewApp(appID, msg.sender, _name, _ipfsHash, _additionalData);
+        submitTime[appID] = block.timestamp;
         appID = appID + 1;
     }
 
-    function updateApp(uint _appID, string memory _name, string memory _ipfsHash, string memory _additionalData) public {
-        require(appOwners[_appID] == msg.sender, "Not owner of app");
-        appName[appID] = _name;
-        appIPFSHash[appID] = _ipfsHash;
-        appAddData[appID] = _additionalData;
-        emit UpdateApp(appID, msg.sender, _name, _ipfsHash, _additionalData);
+    function updateDApp(uint _appID, string memory _name, string memory _ipfsHash, string memory _additionalData) public {
+        require(appOwners[_appID] == msg.sender, "Not owner of dapp");
+        appName[_appID] = _name;
+        appIPFSHash[_appID] = _ipfsHash;
+        appAddData[_appID] = _additionalData;
+        emit UpdateApp(_appID, msg.sender, _name, _ipfsHash, _additionalData);
     }
 
-    function getAppData(uint _appID) external view returns(App memory) {
+    function getDAppData(uint _appID) external view returns(App memory) {
         return App(_appID, appOwners[_appID], appName[_appID], appIPFSHash[_appID], appAddData[_appID]);
+    }
+
+    function releaseDApp(uint _appID) public {
+        require(appOwners[_appID] == msg.sender, "Not owner of dapp");
+        require(submitTime[_appID]+172800<block.timestamp, "DApp not passed 48h yet");
+        emit NewApp(_appID, msg.sender, appName[_appID], appIPFSHash[_appID], appAddData[_appID]);
     }
 
 }

@@ -1,0 +1,12 @@
+{
+    "description": "New uniswap only for android.",
+    "developer": "Uniswap.org",
+    "type": "Exchange",
+    "Category": "Finance",
+    "images": [
+        "IMAGE1",
+        "IMAGE2",
+        "IMAGE3",
+        "IMAGE4"
+    ]
+}
