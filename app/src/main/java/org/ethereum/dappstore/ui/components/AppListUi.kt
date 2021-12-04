@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -50,11 +49,10 @@ fun ListUi(data: List<DAppInfo>, events: EventDispatcher<AppListLogic.Event>) {
 
 @Composable
 fun DAppCard(dappInfo: DAppInfo, modifier: Modifier) {
-    Card(
+    Column(
         modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),
-        elevation = 8.dp
     ) {
         Row(Modifier.fillMaxWidth().padding(16.dp)) {
             Image(

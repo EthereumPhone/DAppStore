@@ -2,7 +2,6 @@ package org.ethereum.dappstore.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val BackgroundAccent = Color(0xFF3C3D4E)
+val Selected = Color(0xFFFFFFFF)
+val Unselected = Color(0xFF716F9F)
