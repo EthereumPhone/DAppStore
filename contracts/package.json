@@ -11,6 +11,7 @@
     "hardhat-gas-reporter": "^1.0.6"
   },
   "dependencies": {
-    "@openzeppelin/contracts-upgradeable": "^4.4.0"
+    "@openzeppelin/contracts-upgradeable": "^4.4.0",
+    "dotenv": "^10.0.0"
   }
 }

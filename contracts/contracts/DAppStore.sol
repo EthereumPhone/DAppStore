@@ -1,13 +1,13 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract DAppStore is Initializable {
     // TODO: Replace with real address
-    address public owner = address(0);
-    uint256 public appID = 0;
+    address public owner;
+    uint256 public appID;
+    uint public amountToPay;
     mapping(uint => address) appOwners;
     mapping(uint => string) appName;
     mapping(uint => string) appIPFSHash;
@@ -22,7 +22,11 @@ contract DAppStore is Initializable {
         _;
     }
 
-    constructor() initializer {}
+    function init(uint _amountToPay) public initializer {
+        amountToPay = _amountToPay;
+        owner = msg.sender;
+        appID = 0;
+    }
 
     struct App {
         uint appID;
@@ -32,7 +36,8 @@ contract DAppStore is Initializable {
         string appAddData;
     }
 
-    function submitDApp(string memory _name, string memory _ipfsHash, string memory _additionalData) public {
+    function submitDApp(string memory _name, string memory _ipfsHash, string memory _additionalData) public payable {
+        require(msg.value == amountToPay, "Ether for lockup required");
         appOwners[appID] = msg.sender;
         appName[appID] = _name;
         appIPFSHash[appID] = _ipfsHash;
@@ -57,6 +62,7 @@ contract DAppStore is Initializable {
         require(appOwners[_appID] == msg.sender, "Not owner of dapp");
         require(submitTime[_appID]+172800<block.timestamp, "DApp not passed 48h yet");
         emit NewApp(_appID, msg.sender, appName[_appID], appIPFSHash[_appID], appAddData[_appID]);
+        payable(msg.sender).transfer(amountToPay);
     }
 
 }
