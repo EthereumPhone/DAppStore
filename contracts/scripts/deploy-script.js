@@ -18,9 +18,8 @@ async function main() {
   const dAppStore = await upgrades.deployProxy(DAppStore)
 
   await dAppStore.deployed();
-  console.log("Upgrades: ", upgrades)
 
-  console.log("DAppStore deployed to:", dAppStore);
+  console.log("DAppStore deployed to:", dAppStore.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
