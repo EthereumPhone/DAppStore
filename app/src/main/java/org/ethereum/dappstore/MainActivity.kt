@@ -31,26 +31,23 @@ class MainActivity : ComponentActivity() {
             DAppStoreTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Scaffold(topBar = {
-                        SearchBarUi()
-                    },
-                        bottomBar = {
-                            BottomNavigation(
-                                backgroundColor = MaterialTheme.colors.surface,
-                                elevation = 0.dp
-                            ) {
-                                bottomNavScreens.forEach { screen ->
-                                    BottomNavigationItem(
-                                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                                        onClick = { navController.navigate(screen.route) },
-                                        selectedContentColor = Selected,
-                                        unselectedContentColor = Unselected,
-                                        icon = {
-                                            Icon(screen.icon, contentDescription = screen.route)
-                                        })
-                                }
+                    Scaffold(bottomBar = {
+                        BottomNavigation(
+                            backgroundColor = MaterialTheme.colors.surface,
+                            elevation = 0.dp
+                        ) {
+                            bottomNavScreens.forEach { screen ->
+                                BottomNavigationItem(
+                                    selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                                    onClick = { navController.navigate(screen.route) },
+                                    selectedContentColor = Selected,
+                                    unselectedContentColor = Unselected,
+                                    icon = {
+                                        Icon(screen.icon, contentDescription = screen.route)
+                                    })
                             }
-                        }) {
+                        }
+                    }) {
                         NavHost(
                             navController = navController,
                             startDestination = Screen.MainNav.Home.route
@@ -60,7 +57,7 @@ class MainActivity : ComponentActivity() {
                             composable(Screen.MainNav.Settings.route) { SettingsUi() }
                             composable(Screen.AppDetail.route) { navBackStackEntry ->
                                 navBackStackEntry.arguments?.getString("id")?.let {
-                                    AppDetailUi(it)
+                                    AppDetailUi(it, navController)
                                 }
                             }
                         }

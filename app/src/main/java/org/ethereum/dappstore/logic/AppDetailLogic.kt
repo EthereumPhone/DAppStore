@@ -8,24 +8,25 @@ import kotlinx.coroutines.withContext
 import org.ethereum.dappstore.data.DataRepository
 import org.ethereum.dappstore.data.models.AppInfo
 
-class AppListLogic(
+class AppDetailLogic(
+    private val appId: String,
     private val repository: DataRepository = DataRepository
-) : LogicBlock<AppListLogic.State, AppListLogic.Event>() {
+) : LogicBlock<AppDetailLogic.State, AppDetailLogic.Event>() {
     sealed class State : BlockState {
         object Loading : State()
         object Error : State()
-        data class Loaded(val data: List<AppInfo>) : State()
+        data class Loaded(val data: AppInfo) : State()
     }
 
     sealed class Event : BlockEvent {
-        data class AppClicked(val info: AppInfo) : Event()
+        data class InstallButtonClicked(val info: AppInfo) : Event()
     }
 
     init {
         launchInBlock {
             pushState(State.Loading)
             withContext(Dispatchers.IO) {
-                val data = repository.fetchApps()
+                val data = repository.fetchAppById(appId)
                 pushState(State.Loaded(data))
             }
         }
@@ -33,7 +34,7 @@ class AppListLogic(
 
     override fun onUiEvent(event: Event) {
         when (event) {
-            is Event.AppClicked -> { /* TODO */ }
+            is Event.InstallButtonClicked -> { /* TODO */ }
         }
     }
 

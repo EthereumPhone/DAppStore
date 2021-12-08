@@ -50,6 +50,7 @@ fun ListUi(
     data: List<AppInfo>,
     events: EventDispatcher<AppListLogic.Event>
 ) {
+    SearchBarUi()
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         cells = GridCells.Fixed(count = 2),
@@ -96,36 +97,5 @@ fun DAppCardCompact(dappInfo: AppInfo, modifier: Modifier) {
     }
 }
 
-@Composable
-fun DAppCardLarge(dappInfo: AppInfo, modifier: Modifier) {
-    Column(
-        modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-    ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Image(
-                painter = rememberImagePainter(
-                    data = dappInfo.iconUrl,
-                    builder = {
-                        transformations(CircleCropTransformation())
-                    }
-                ),
-                contentDescription = null,
-                modifier = Modifier.size(64.dp)
-            )
-            Spacer(Modifier.width(16.dp))
-            Column() {
-                Text(dappInfo.name, style = MaterialTheme.typography.h5)
-                Spacer(Modifier.height(6.dp))
-                Text(dappInfo.description)
-            }
-        }
-    }
-}
 
 
