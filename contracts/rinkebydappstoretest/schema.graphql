@@ -1,0 +1,7 @@
+type App @entity {
+  id: ID!
+  appOwner: Bytes! # address
+  appName: String!
+  appIPFSHash: String!
+  appAddData: String!
+}

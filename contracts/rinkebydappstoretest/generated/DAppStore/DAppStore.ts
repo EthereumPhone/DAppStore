@@ -180,20 +180,20 @@ export class DAppStore extends ethereum.SmartContract {
   }
 }
 
-export class InitCall extends ethereum.Call {
-  get inputs(): InitCall__Inputs {
-    return new InitCall__Inputs(this);
+export class InitializeCall extends ethereum.Call {
+  get inputs(): InitializeCall__Inputs {
+    return new InitializeCall__Inputs(this);
   }
 
-  get outputs(): InitCall__Outputs {
-    return new InitCall__Outputs(this);
+  get outputs(): InitializeCall__Outputs {
+    return new InitializeCall__Outputs(this);
   }
 }
 
-export class InitCall__Inputs {
-  _call: InitCall;
+export class InitializeCall__Inputs {
+  _call: InitializeCall;
 
-  constructor(call: InitCall) {
+  constructor(call: InitializeCall) {
     this._call = call;
   }
 
@@ -202,10 +202,10 @@ export class InitCall__Inputs {
   }
 }
 
-export class InitCall__Outputs {
-  _call: InitCall;
+export class InitializeCall__Outputs {
+  _call: InitializeCall;
 
-  constructor(call: InitCall) {
+  constructor(call: InitializeCall) {
     this._call = call;
   }
 }

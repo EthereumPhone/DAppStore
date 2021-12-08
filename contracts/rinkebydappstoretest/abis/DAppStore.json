@@ -113,7 +113,7 @@
     "inputs": [
       { "internalType": "uint256", "name": "_amountToPay", "type": "uint256" }
     ],
-    "name": "init",
+    "name": "initialize",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

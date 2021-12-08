@@ -14,8 +14,8 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const DAppStore = await ethers.getContractFactory("DAppStore");
-  const dAppStore = await upgrades.deployProxy(DAppStore)
+  const DAppStore = await ethers.getContractFactory("NotUpgradableStore");
+  const dAppStore = await DAppStore.deploy(1000)
 
   await dAppStore.deployed();
 

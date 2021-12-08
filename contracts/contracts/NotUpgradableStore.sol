@@ -1,9 +1,8 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract DAppStore is Initializable {
+contract NotUpgradableStore {
     // TODO: Replace with real address
     address public owner;
     uint256 public appID;
@@ -22,7 +21,7 @@ contract DAppStore is Initializable {
         _;
     }
 
-    function initialize(uint _amountToPay) public initializer {
+    constructor (uint _amountToPay) {
         amountToPay = _amountToPay;
         owner = msg.sender;
         appID = 0;

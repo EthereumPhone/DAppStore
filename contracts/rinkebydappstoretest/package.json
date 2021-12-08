@@ -1,0 +1,18 @@
+{
+  "name": "rinkebydappstoretest",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ rinkebydappstoretest",
+    "create-local": "graph create --node http://localhost:8020/ rinkebydappstoretest",
+    "remove-local": "graph remove --node http://localhost:8020/ rinkebydappstoretest",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 rinkebydappstoretest"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.16.2",
+    "@graphprotocol/graph-ts": "0.24.1",
+    "axios": "^0.24.0"
+  },
+  "module": "commonjs"
+}
