@@ -1,13 +1,12 @@
 package org.ethereum.dappstore.logic
 
-import android.widget.Toast
 import com.joaquimverges.helium.core.LogicBlock
 import com.joaquimverges.helium.core.event.BlockEvent
 import com.joaquimverges.helium.core.state.BlockState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.ethereum.dappstore.data.DataRepository
-import org.ethereum.dappstore.data.models.DAppInfo
+import org.ethereum.dappstore.data.models.AppInfo
 
 class AppListLogic(
     private val repository: DataRepository = DataRepository()
@@ -15,11 +14,11 @@ class AppListLogic(
     sealed class State : BlockState {
         object Loading : State()
         object Error : State()
-        data class Loaded(val data: List<DAppInfo>) : State()
+        data class Loaded(val data: List<AppInfo>) : State()
     }
 
     sealed class Event : BlockEvent {
-        data class DAppClicked(val info: DAppInfo) : Event()
+        data class AppClicked(val info: AppInfo) : Event()
     }
 
     init {
@@ -34,7 +33,7 @@ class AppListLogic(
 
     override fun onUiEvent(event: Event) {
         when (event) {
-            is Event.DAppClicked -> { /* TODO */ }
+            is Event.AppClicked -> { /* TODO */ }
         }
     }
 

@@ -1,6 +1,6 @@
 package org.ethereum.dappstore.data.models
 
-data class DAppInfo(
+data class AppInfo(
     val id: String,
     val name: String,
     val apkUrl: String,
