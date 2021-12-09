@@ -4,8 +4,6 @@ plugins {
     id("com.apollographql.apollo").version("$apollo_version")
 }
 
-//apply plugin: "com.apollographql.apollo"
-
 android {
     compileSdk 31
 
@@ -64,8 +62,9 @@ dependencies {
     implementation 'com.joaquimverges.helium:helium-core-android:0.8.0'
     implementation 'com.joaquimverges.helium:helium-compose:0.8.0'
     implementation 'io.coil-kt:coil-compose:1.4.0'
-    implementation("com.apollographql.apollo:apollo-runtime:$apollo_version")
-    implementation("com.apollographql.apollo:apollo-coroutines-support:$apollo_version")
+    implementation "com.apollographql.apollo:apollo-runtime:$apollo_version"
+    implementation "com.apollographql.apollo:apollo-coroutines-support:$apollo_version"
+    implementation 'com.github.ligi:ipfs-api-kotlin:0.15'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
