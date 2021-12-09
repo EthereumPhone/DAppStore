@@ -19,7 +19,13 @@ export class App extends Entity {
     this.set("appOwner", Value.fromBytes(Bytes.empty()));
     this.set("appName", Value.fromString(""));
     this.set("appIPFSHash", Value.fromString(""));
-    this.set("appAddData", Value.fromString(""));
+    this.set("description", Value.fromString(""));
+    this.set("developer", Value.fromString(""));
+    this.set("type", Value.fromString(""));
+    this.set("category", Value.fromString(""));
+    this.set("logo", Value.fromString(""));
+    this.set("version", Value.fromString(""));
+    this.set("images", Value.fromStringArray(new Array(0)));
   }
 
   save(): void {
@@ -75,12 +81,66 @@ export class App extends Entity {
     this.set("appIPFSHash", Value.fromString(value));
   }
 
-  get appAddData(): string {
-    let value = this.get("appAddData");
+  get description(): string {
+    let value = this.get("description");
     return value!.toString();
   }
 
-  set appAddData(value: string) {
-    this.set("appAddData", Value.fromString(value));
+  set description(value: string) {
+    this.set("description", Value.fromString(value));
+  }
+
+  get developer(): string {
+    let value = this.get("developer");
+    return value!.toString();
+  }
+
+  set developer(value: string) {
+    this.set("developer", Value.fromString(value));
+  }
+
+  get type(): string {
+    let value = this.get("type");
+    return value!.toString();
+  }
+
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
+  }
+
+  get category(): string {
+    let value = this.get("category");
+    return value!.toString();
+  }
+
+  set category(value: string) {
+    this.set("category", Value.fromString(value));
+  }
+
+  get logo(): string {
+    let value = this.get("logo");
+    return value!.toString();
+  }
+
+  set logo(value: string) {
+    this.set("logo", Value.fromString(value));
+  }
+
+  get version(): string {
+    let value = this.get("version");
+    return value!.toString();
+  }
+
+  set version(value: string) {
+    this.set("version", Value.fromString(value));
+  }
+
+  get images(): Array<string> {
+    let value = this.get("images");
+    return value!.toStringArray();
+  }
+
+  set images(value: Array<string>) {
+    this.set("images", Value.fromStringArray(value));
   }
 }

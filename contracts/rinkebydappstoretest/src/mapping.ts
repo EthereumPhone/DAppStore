@@ -1,4 +1,4 @@
-import { BigInt, JSONValue } from "@graphprotocol/graph-ts"
+import { ipfs,json, JSONValue, Value } from "@graphprotocol/graph-ts"
 import { DAppStore, NewApp, UpdateApp } from "../generated/DAppStore/DAppStore"
 import { App } from "../generated/schema"
 //import { http } from 'as-http'
@@ -19,23 +19,21 @@ export function handleNewApp(event: NewApp): void {
   entity.appOwner = event.params.appOwner
   entity.appName = event.params.appName
   entity.appIPFSHash = event.params.appIPFSHash
-  entity.appAddData = event.params.appAddData
+  let obj = json.fromBytes(ipfs.cat(event.params.appAddData)!).toObject()
+  entity.description = obj.get("description")!.toString()
+  entity.developer = obj.get("developer")!.toString()
+  entity.type = obj.get("type")!.toString()
+  entity.category = obj.get("category")!.toString()
+  entity.logo = obj.get("logo")!.toString();
+  entity.version = obj.get("version")!.toString();
+  var allImg : string[] = []
+  let allValues : JSONValue[] = obj.get("images")!.toArray()
+  for(let i = 0;i<allValues.length;i++){
+    allImg.push(allValues[i].toString())
+  }
+  entity.images = allImg
   entity.save()
-  /** 
-  const headers = new Map<string, string>()
 
-  http.get(event.params.appAddData.toString(), headers, (error, body) => {
-    let jsonObj: JSON.Obj = <JSON.Obj>(JSON.parse(body));
-    entity!.description = jsonObj.getString("description")!.valueOf()
-    entity!.developer = jsonObj.getString("description")!.valueOf()
-    entity!.type = jsonObj.getString("description")!.valueOf()
-    entity!.category = jsonObj.getString("description")!.valueOf()
-    entity!.images = jsonObj.getString("images")!.valueOf()
-
-    // Entities can be written to the store with `.save()`
-    entity!.save()
-  });
-  */
 }
 
 export function handleUpdateApp(event: UpdateApp): void {
@@ -53,21 +51,18 @@ export function handleUpdateApp(event: UpdateApp): void {
   entity.appOwner = event.params.appOwner
   entity.appName = event.params.appName
   entity.appIPFSHash = event.params.appIPFSHash
-  entity.appAddData = event.params.appAddData
+  let obj = json.fromBytes(ipfs.cat(event.params.appAddData)!).toObject()
+  entity.description = obj.get("description")!.toString()
+  entity.developer = obj.get("developer")!.toString()
+  entity.type = obj.get("type")!.toString()
+  entity.category = obj.get("category")!.toString()
+  entity.logo = obj.get("logo")!.toString();
+  entity.version = obj.get("version")!.toString();
+  var allImg : string[] = []
+  let allValues : JSONValue[] = obj.get("images")!.toArray()
+  for(let i = 0;i<allValues.length;i++){
+    allImg.push(allValues[i].toString())
+  }
+  entity.images = allImg
   entity.save()
-  /** 
-  const headers = new Map<string, string>()
-
-  http.get(event.params.appAddData.toString(), headers, (error, body) => {
-    let jsonObj: JSON.Obj = <JSON.Obj>(JSON.parse(body));
-    entity!.description = jsonObj.getString("description")!.valueOf()
-    entity!.developer = jsonObj.getString("description")!.valueOf()
-    entity!.type = jsonObj.getString("description")!.valueOf()
-    entity!.category = jsonObj.getString("description")!.valueOf()
-    entity!.images = jsonObj.getString("images")!.valueOf()
-
-    // Entities can be written to the store with `.save()`
-    entity!.save()
-  });
-  */
 }

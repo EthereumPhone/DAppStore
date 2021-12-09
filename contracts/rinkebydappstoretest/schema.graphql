@@ -3,5 +3,11 @@ type App @entity {
   appOwner: Bytes! # address
   appName: String!
   appIPFSHash: String!
-  appAddData: String!
+  description: String!
+  developer: String!
+  type: String!
+  category: String!
+  logo: String!
+  version: String!
+  images: [String!]!
 }

@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract DAppStore is Initializable {
-    // TODO: Replace with real address
     address public owner;
     uint256 public appID;
     uint public amountToPay;
@@ -24,6 +23,7 @@ contract DAppStore is Initializable {
 
     function initialize(uint _amountToPay) public initializer {
         amountToPay = _amountToPay;
+        // TODO: Replace with real address
         owner = msg.sender;
         appID = 0;
     }
@@ -63,7 +63,7 @@ contract DAppStore is Initializable {
         /**
             The test-version on rinkeby does check for 48h passed.
          */
-        //require(submitTime[_appID]+172800<block.timestamp, "DApp not passed 48h yet");
+        require(submitTime[_appID]+172800<block.timestamp, "DApp not passed 48h yet");
         emit NewApp(_appID, msg.sender, appName[_appID], appIPFSHash[_appID], appAddData[_appID]);
         payable(msg.sender).transfer(amountToPay);
     }

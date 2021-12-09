@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const { ethers } = require("hardhat");
+const { ethers, upgrades } = require("hardhat");
 
 describe("DAppStore", function () {
   let DAppStore;
@@ -7,12 +7,10 @@ describe("DAppStore", function () {
   const amountToPay = "0.01"
   it("should create an dapp", async function () {
     DAppStore = await ethers.getContractFactory("DAppStore");
-    dAppStore = await DAppStore.deploy();
-    const initTx = await dAppStore.init(ethers.utils.parseEther(amountToPay));
-    await initTx.wait();
+    dAppStore = await upgrades.deployProxy(DAppStore, [ethers.utils.parseEther(amountToPay)])
     const name = "Uniswap";
     await dAppStore.deployed();
-    const submitAppTx = await dAppStore.submitDApp(name, "QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy", "QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy", { value: ethers.utils.parseEther(amountToPay) })
+    const submitAppTx = await dAppStore.submitDApp(name, "QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy", "QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy", "Exchange", "QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy", { value: ethers.utils.parseEther(amountToPay) })
     await submitAppTx.wait();
     let balance = await ethers.provider.getBalance(dAppStore.address);
     console.log("Balance: ", balance)
@@ -25,7 +23,7 @@ describe("DAppStore", function () {
   it("should update an dapp", async function () {
     await dAppStore.deployed();
     const name = "Metaswap";
-    const updateAppTx = await dAppStore.updateDApp(0, name, "QmXExS4BMc1YrH6iWERyryFcDWkvobxryXSwECLrcd7Y1H", "QmXExS4BMc1YrH6iWERyryFcDWkvobxryXSwECLrcd7Y1H")
+    const updateAppTx = await dAppStore.updateDApp(0, name, "QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy", "QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy", "Exchange", "QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy")
     await updateAppTx.wait();
     const appOutput = await dAppStore.getDAppData(0);
     console.log("Updated name:",appOutput.appName)
