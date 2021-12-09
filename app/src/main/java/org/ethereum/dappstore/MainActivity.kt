@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.*
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,7 +18,7 @@ import org.ethereum.dappstore.ui.theme.DAppStoreTheme
 import org.ethereum.dappstore.ui.theme.Selected
 import org.ethereum.dappstore.ui.theme.Unselected
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
 
     private val bottomNavScreens =
         listOf(Screen.MainNav.Home, Screen.MainNav.User, Screen.MainNav.Settings)

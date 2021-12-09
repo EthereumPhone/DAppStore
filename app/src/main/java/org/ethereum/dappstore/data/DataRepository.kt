@@ -1,6 +1,14 @@
 package org.ethereum.dappstore.data
 
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo.coroutines.toDeferred
+import com.apollographql.apollo.coroutines.toFlow
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.toList
+import org.ethereum.dappstore.AppQuery
+import org.ethereum.dappstore.AppsQuery
 import org.ethereum.dappstore.data.models.AppInfo
 
 object DataRepository {
@@ -40,13 +48,24 @@ object DataRepository {
         ),
     )
 
-    suspend fun fetchApps(): List<AppInfo> {
-        delay(1000)
-        return FAKE_DATA;
+    private val apolloClient = ApolloClient.builder()
+        .serverUrl("https://api.studio.thegraph.com/query/16024/rinkebydappstoretest/0.0.4")
+        .build()
+
+    suspend fun fetchApps(): List<AppInfo>? {
+        return apolloClient.query(AppsQuery()).await().data?.apps?.map {
+            AppInfo(
+                it.id, it.appName, "", "", "", "dApp"
+            )
+        }
     }
 
-    suspend fun fetchAppById(id: String): AppInfo {
-        return FAKE_DATA.first { it.id == id }
+    suspend fun fetchAppById(id: String): AppInfo? {
+        return apolloClient.query(AppQuery(id)).await().data?.app?.let {
+            AppInfo(
+                it.id, it.appName, "", "", "", "dApp"
+            )
+        }
     }
 }
 

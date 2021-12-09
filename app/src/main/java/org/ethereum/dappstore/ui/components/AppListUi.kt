@@ -14,6 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -22,12 +23,14 @@ import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.joaquimverges.helium.compose.AppBlock
 import com.joaquimverges.helium.core.event.EventDispatcher
+import com.joaquimverges.helium.core.retained.getRetainedLogicBlock
 import org.ethereum.dappstore.data.models.AppInfo
 import org.ethereum.dappstore.logic.AppListLogic
 import org.ethereum.dappstore.ui.Screen
 
 @Composable
-fun AppListUi(nav: NavHostController, logic: AppListLogic = AppListLogic()) {
+fun AppListUi(nav: NavHostController) {
+    val logic: AppListLogic = LocalContext.current.getRetainedLogicBlock()
     AppBlock(logic) { state, events ->
         Column(
             Modifier.fillMaxSize(),
@@ -52,7 +55,7 @@ fun ListUi(
 ) {
     SearchBarUi()
     LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(bottom = 64.dp),
         cells = GridCells.Fixed(count = 2),
         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp)
     ) {

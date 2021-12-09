@@ -26,8 +26,10 @@ class AppDetailLogic(
         launchInBlock {
             pushState(State.Loading)
             withContext(Dispatchers.IO) {
-                val data = repository.fetchAppById(appId)
-                pushState(State.Loaded(data))
+                repository.fetchAppById(appId)?.let {
+                    pushState(State.Loaded(it))
+                } ?: pushState(State.Error)
+
             }
         }
     }

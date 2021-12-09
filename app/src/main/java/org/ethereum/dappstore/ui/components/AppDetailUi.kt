@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -24,9 +25,9 @@ import org.ethereum.dappstore.logic.AppDetailLogic
 @Composable
 fun AppDetailUi(
     appId: String,
-    navController: NavController,
-    logic: AppDetailLogic = AppDetailLogic(appId)
+    navController: NavController
 ) {
+    val logic: AppDetailLogic = remember { AppDetailLogic(appId) }
     Column(
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
