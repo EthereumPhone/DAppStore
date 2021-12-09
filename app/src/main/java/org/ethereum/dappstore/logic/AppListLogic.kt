@@ -25,15 +25,17 @@ class AppListLogic(
         launchInBlock {
             pushState(State.Loading)
             withContext(Dispatchers.IO) {
-                val data = repository.fetchApps()
-                pushState(State.Loaded(data))
+                repository.fetchApps()?.let {
+                    pushState(State.Loaded(it))
+                } ?: pushState(State.Error)
             }
         }
     }
 
     override fun onUiEvent(event: Event) {
         when (event) {
-            is Event.AppClicked -> { /* TODO */ }
+            is Event.AppClicked -> { /* TODO */
+            }
         }
     }
 

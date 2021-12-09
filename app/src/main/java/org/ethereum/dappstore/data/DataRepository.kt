@@ -1,7 +1,12 @@
 package org.ethereum.dappstore.data
 
-import kotlinx.coroutines.delay
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.coroutines.await
+import io.ipfs.kotlin.defaults.InfuraIPFS
+import org.ethereum.dappstore.AppQuery
+import org.ethereum.dappstore.AppsQuery
 import org.ethereum.dappstore.data.models.AppInfo
+import org.json.JSONObject
 
 object DataRepository {
 
@@ -40,13 +45,45 @@ object DataRepository {
         ),
     )
 
-    suspend fun fetchApps(): List<AppInfo> {
-        delay(1000)
-        return FAKE_DATA;
+    private val apolloClient = ApolloClient.builder()
+        .serverUrl("https://api.studio.thegraph.com/query/16024/rinkebydappstoretest/0.0.4")
+        .build()
+
+    private val ipfs = InfuraIPFS()
+
+    suspend fun fetchApps(): List<AppInfo>? {
+        // TODO memory / disk cache
+        // TODO GQL fragment
+        return apolloClient.query(AppsQuery()).await().data?.apps?.map {
+            val metadata = JSONObject(ipfs.get.cat(it.appAddData))
+            val img = ipfs.repo.ipfs.config.base_url + "cat?arg=" + metadata.optJSONArray("images")
+                .get(0) as String
+            AppInfo(
+                it.id,
+                it.appName,
+                it.appIPFSHash,
+                img,
+                metadata.optString("description"),
+                metadata.optString("Category")
+            )
+        }
     }
 
-    suspend fun fetchAppById(id: String): AppInfo {
-        return FAKE_DATA.first { it.id == id }
+    suspend fun fetchAppById(id: String): AppInfo? {
+        return apolloClient.query(AppQuery(id)).await().data?.app?.let {
+            val metadata = JSONObject(ipfs.get.cat(it.appAddData))
+            val img = ipfs.repo.ipfs.config.base_url + "cat?arg=" + metadata.optJSONArray("images")
+                .get(0) as String
+
+            AppInfo(
+                it.id,
+                it.appName,
+                it.appIPFSHash,
+                img,
+                metadata.optString("description"),
+                metadata.optString("Category")
+            )
+        }
     }
 }
 

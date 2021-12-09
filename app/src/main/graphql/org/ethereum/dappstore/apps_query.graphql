@@ -1,0 +1,9 @@
+query AppsQuery {
+    apps {
+        id
+        appName
+        appOwner
+        appAddData
+        appIPFSHash
+    }
+}

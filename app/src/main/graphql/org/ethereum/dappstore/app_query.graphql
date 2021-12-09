@@ -1,0 +1,9 @@
+query AppQuery($id:ID!) {
+    app(id: $id) {
+        id
+        appName
+        appOwner
+        appAddData
+        appIPFSHash
+    }
+}
