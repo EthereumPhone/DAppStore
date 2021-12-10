@@ -6,9 +6,9 @@ dataSources:
     name: DAppStore
     network: rinkeby
     source:
-      address: "0x2b592e902425bAE5A8Db7b5A8C38C73470c2df86"
+      address: "0x5AA0B1C7e8Df2C6f7cb953Bc7e950E85a9bEF493"
       abi: DAppStore
-      startBlock: 9787069
+      startBlock: 9790470
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
