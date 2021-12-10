@@ -2,8 +2,10 @@ query AppsQuery {
     apps {
         id
         appName
-        appOwner
-        appAddData
-        appIPFSHash
+        developer
+        type
+        category
+        logo
+        version
     }
 }

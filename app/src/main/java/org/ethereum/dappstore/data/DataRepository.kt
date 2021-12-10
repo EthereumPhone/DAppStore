@@ -46,7 +46,7 @@ object DataRepository {
     )
 
     private val apolloClient = ApolloClient.builder()
-        .serverUrl("https://api.studio.thegraph.com/query/16024/rinkebydappstoretest/0.0.4")
+        .serverUrl("https://api.thegraph.com/subgraphs/name/markusbug/dappstore-rinkeby")
         .build()
 
     private val ipfs = InfuraIPFS()
@@ -55,33 +55,28 @@ object DataRepository {
         // TODO memory / disk cache
         // TODO GQL fragment
         return apolloClient.query(AppsQuery()).await().data?.apps?.map {
-            val metadata = JSONObject(ipfs.get.cat(it.appAddData))
-            val img = ipfs.repo.ipfs.config.base_url + "cat?arg=" + metadata.optJSONArray("images")
-                .get(0) as String
+            val img = ipfs.repo.ipfs.config.base_url + "cat?arg=" + it.logo
             AppInfo(
                 it.id,
                 it.appName,
-                it.appIPFSHash,
+                "",
                 img,
-                metadata.optString("description"),
-                metadata.optString("Category")
+                "",
+                it.category
             )
         }
     }
 
     suspend fun fetchAppById(id: String): AppInfo? {
         return apolloClient.query(AppQuery(id)).await().data?.app?.let {
-            val metadata = JSONObject(ipfs.get.cat(it.appAddData))
-            val img = ipfs.repo.ipfs.config.base_url + "cat?arg=" + metadata.optJSONArray("images")
-                .get(0) as String
-
+            val img = ipfs.repo.ipfs.config.base_url + "cat?arg=" + it.logo
             AppInfo(
                 it.id,
                 it.appName,
                 it.appIPFSHash,
                 img,
-                metadata.optString("description"),
-                metadata.optString("Category")
+                it.description,
+                it.category
             )
         }
     }
