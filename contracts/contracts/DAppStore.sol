@@ -63,7 +63,7 @@ contract DAppStore is Initializable {
         /**
             The test-version on rinkeby does check for 48h passed.
          */
-        require(submitTime[_appID]+172800<block.timestamp, "DApp not passed 48h yet");
+        //require(submitTime[_appID]+172800<block.timestamp, "DApp not passed 48h yet");
         emit NewApp(_appID, msg.sender, appName[_appID], appIPFSHash[_appID], appAddData[_appID]);
         payable(msg.sender).transfer(amountToPay);
     }
