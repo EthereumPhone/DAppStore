@@ -78,6 +78,24 @@ export class UpdateApp__Params {
   }
 }
 
+export class VerifyApp extends ethereum.Event {
+  get params(): VerifyApp__Params {
+    return new VerifyApp__Params(this);
+  }
+}
+
+export class VerifyApp__Params {
+  _event: VerifyApp;
+
+  constructor(event: VerifyApp) {
+    this._event = event;
+  }
+
+  get appID(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class DAppStore__getDAppDataResultValue0Struct extends ethereum.Tuple {
   get appID(): BigInt {
     return this[0].toBigInt();
@@ -316,6 +334,36 @@ export class UpdateDAppCall__Outputs {
   _call: UpdateDAppCall;
 
   constructor(call: UpdateDAppCall) {
+    this._call = call;
+  }
+}
+
+export class VerifyDAppCall extends ethereum.Call {
+  get inputs(): VerifyDAppCall__Inputs {
+    return new VerifyDAppCall__Inputs(this);
+  }
+
+  get outputs(): VerifyDAppCall__Outputs {
+    return new VerifyDAppCall__Outputs(this);
+  }
+}
+
+export class VerifyDAppCall__Inputs {
+  _call: VerifyDAppCall;
+
+  constructor(call: VerifyDAppCall) {
+    this._call = call;
+  }
+
+  get _appID(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class VerifyDAppCall__Outputs {
+  _call: VerifyDAppCall;
+
+  constructor(call: VerifyDAppCall) {
     this._call = call;
   }
 }

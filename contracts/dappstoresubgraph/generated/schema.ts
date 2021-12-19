@@ -143,4 +143,13 @@ export class App extends Entity {
   set images(value: Array<string>) {
     this.set("images", Value.fromStringArray(value));
   }
+
+  get verified(): boolean {
+    let value = this.get("verified");
+    return value!.toBoolean();
+  }
+
+  set verified(value: boolean) {
+    this.set("verified", Value.fromBoolean(value));
+  }
 }

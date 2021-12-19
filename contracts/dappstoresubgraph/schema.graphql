@@ -10,4 +10,5 @@ type App @entity {
   logo: String!
   version: String!
   images: [String!]!
+  verified: Boolean!
 }

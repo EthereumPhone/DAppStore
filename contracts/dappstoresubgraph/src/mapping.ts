@@ -1,5 +1,5 @@
 import { ipfs, json, JSONValue, log, Value } from "@graphprotocol/graph-ts"
-import { DAppStore, NewApp, UpdateApp } from "../generated/DAppStore/DAppStore"
+import { DAppStore, NewApp, UpdateApp, VerifyApp } from "../generated/DAppStore/DAppStore"
 import { App } from "../generated/schema"
 //import { http } from 'as-http'
 //import { JSON } from "assemblyscript-json"; 
@@ -21,6 +21,7 @@ export function handleNewApp(event: NewApp): void {
   entity!.appName = event.params.appName
   entity!.appIPFSHash = event.params.appIPFSHash
   let data = ipfs.cat(event.params.appAddData)
+  entity!.verified = false;
   if (data !== null && entity !== null) {
     var obj = json.try_fromString(data.toString().replace("\n", "")).value.toObject()
     obj.entries.forEach(entry => {
@@ -108,4 +109,16 @@ export function handleUpdateApp(event: UpdateApp): void {
 
   entity!.save()
 
+}
+export function verifyApp(event: VerifyApp): void {
+  entity = App.load(event.params.appID.toString())
+
+  // Entities only exist after they have been saved to the store;
+  // `null` checks allow to create entities on demand
+  if (!entity) {
+    entity = new App(event.params.appID.toString())
+  }
+
+  entity!.verified = true;
+  entity!.save();
 }

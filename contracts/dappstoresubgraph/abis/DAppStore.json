@@ -1,160 +1,264 @@
 [
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "appID",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "appOwner",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "appName",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "appIPFSHash",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "appAddData",
-        "type": "string"
-      }
-    ],
-    "name": "NewApp",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "appID",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "appOwner",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "appName",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "appIPFSHash",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "appAddData",
-        "type": "string"
-      }
-    ],
-    "name": "UpdateApp",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "amountToPay",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "appID",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_appID", "type": "uint256" }
-    ],
-    "name": "getDAppData",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "appID", "type": "uint256" },
-          { "internalType": "address", "name": "appOwner", "type": "address" },
-          { "internalType": "string", "name": "appName", "type": "string" },
-          { "internalType": "string", "name": "appIPFSHash", "type": "string" },
-          { "internalType": "string", "name": "appAddData", "type": "string" }
-        ],
-        "internalType": "struct DAppStore.App",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_amountToPay", "type": "uint256" }
-    ],
-    "name": "initialize",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_appID", "type": "uint256" }
-    ],
-    "name": "releaseDApp",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "string", "name": "_name", "type": "string" },
-      { "internalType": "string", "name": "_ipfsHash", "type": "string" },
-      { "internalType": "string", "name": "_additionalData", "type": "string" }
-    ],
-    "name": "submitDApp",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_appID", "type": "uint256" },
-      { "internalType": "string", "name": "_name", "type": "string" },
-      { "internalType": "string", "name": "_ipfsHash", "type": "string" },
-      { "internalType": "string", "name": "_additionalData", "type": "string" }
-    ],
-    "name": "updateDApp",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "appID",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "appOwner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "appName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "appIPFSHash",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "appAddData",
+				"type": "string"
+			}
+		],
+		"name": "NewApp",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "appID",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "appOwner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "appName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "appIPFSHash",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "appAddData",
+				"type": "string"
+			}
+		],
+		"name": "UpdateApp",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "appID",
+				"type": "uint256"
+			}
+		],
+		"name": "VerifyApp",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "amountToPay",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "appID",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_appID",
+				"type": "uint256"
+			}
+		],
+		"name": "getDAppData",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "appID",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "appOwner",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "appName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "appIPFSHash",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "appAddData",
+						"type": "string"
+					}
+				],
+				"internalType": "struct DAppStore.App",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amountToPay",
+				"type": "uint256"
+			}
+		],
+		"name": "initialize",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_appID",
+				"type": "uint256"
+			}
+		],
+		"name": "releaseDApp",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_ipfsHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_additionalData",
+				"type": "string"
+			}
+		],
+		"name": "submitDApp",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_appID",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_ipfsHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_additionalData",
+				"type": "string"
+			}
+		],
+		"name": "updateDApp",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_appID",
+				"type": "uint256"
+			}
+		],
+		"name": "verifyDApp",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
 ]

@@ -12,9 +12,11 @@ contract DAppStore is Initializable {
     mapping(uint => string) appIPFSHash;
     mapping(uint => string) appAddData;
     mapping(uint => uint) submitTime;
+    mapping(uint => bool) appVerified;
 
     event NewApp(uint appID, address appOwner, string appName, string appIPFSHash, string appAddData);
     event UpdateApp(uint appID, address appOwner, string appName, string appIPFSHash, string appAddData);
+    event VerifyApp(uint appID);
 
     modifier _onlyOwner {
         require (msg.sender == owner, "Only owner");
@@ -66,6 +68,12 @@ contract DAppStore is Initializable {
         //require(submitTime[_appID]+172800<block.timestamp, "DApp not passed 48h yet");
         emit NewApp(_appID, msg.sender, appName[_appID], appIPFSHash[_appID], appAddData[_appID]);
         payable(msg.sender).transfer(amountToPay);
+    }
+
+    function verifyDApp(uint _appID) public _onlyOwner {
+        require(appVerified[_appID] == false, "Already verified");
+        appVerified[_appID] = true;
+        emit VerifyApp(_appID);
     }
 
 }
