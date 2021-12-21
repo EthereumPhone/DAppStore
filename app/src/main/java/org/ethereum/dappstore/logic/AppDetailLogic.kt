@@ -1,5 +1,6 @@
 package org.ethereum.dappstore.logic
 
+import android.content.Context
 import com.joaquimverges.helium.core.LogicBlock
 import com.joaquimverges.helium.core.event.BlockEvent
 import com.joaquimverges.helium.core.state.BlockState
@@ -10,7 +11,8 @@ import org.ethereum.dappstore.data.models.AppInfo
 
 class AppDetailLogic(
     private val appId: String,
-    private val repository: DataRepository = DataRepository
+    private val repository: DataRepository = DataRepository,
+    private val appDownloader: AppDownloader = AppDownloader()
 ) : LogicBlock<AppDetailLogic.State, AppDetailLogic.Event>() {
     sealed class State : BlockState {
         object Loading : State()
@@ -19,7 +21,7 @@ class AppDetailLogic(
     }
 
     sealed class Event : BlockEvent {
-        data class InstallButtonClicked(val info: AppInfo) : Event()
+        data class InstallButtonClicked(val context: Context, val info: AppInfo) : Event()
     }
 
     init {
@@ -36,7 +38,10 @@ class AppDetailLogic(
 
     override fun onUiEvent(event: Event) {
         when (event) {
-            is Event.InstallButtonClicked -> { /* TODO */ }
+            is Event.InstallButtonClicked -> {
+                // TODO might need to be moved to a service instead
+                appDownloader.downloadApk(event.context, event.info)
+            }
         }
     }
 

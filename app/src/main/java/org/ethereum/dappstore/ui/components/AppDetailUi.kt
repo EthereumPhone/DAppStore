@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -50,6 +51,7 @@ fun AppDetailLayout(
     data: AppInfo,
     events: EventDispatcher<AppDetailLogic.Event>
 ) {
+    val context = LocalContext.current
     Scaffold(topBar = {
         TopAppBar(backgroundColor = MaterialTheme.colors.background) {
             Icon(
@@ -67,7 +69,7 @@ fun AppDetailLayout(
             modifier = Modifier.padding(bottom = 60.dp),
             shape = MaterialTheme.shapes.large.copy(CornerSize(percent = 50)),
             backgroundColor = MaterialTheme.colors.primary,
-            onClick = { events.pushEvent(AppDetailLogic.Event.InstallButtonClicked(data)) }
+            onClick = { events.pushEvent(AppDetailLogic.Event.InstallButtonClicked(context, data)) }
         ) {
             Row(
                 Modifier.padding(horizontal = 16.dp),

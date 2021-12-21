@@ -70,10 +70,11 @@ object DataRepository {
     suspend fun fetchAppById(id: String): AppInfo? {
         return apolloClient.query(AppQuery(id)).await().data?.app?.let {
             val img = ipfs.repo.ipfs.config.base_url + "cat?arg=" + it.logo
+            val apk = ipfs.repo.ipfs.config.base_url + "get?arg=" + it.appIPFSHash
             AppInfo(
                 it.id,
                 it.appName,
-                it.appIPFSHash,
+                apk,
                 img,
                 it.description,
                 it.category
