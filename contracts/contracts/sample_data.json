@@ -1,11 +1,11 @@
 {
-    "description": "New uniswap only for android.",
-    "developer": "Uniswap.org",
-    "type": "Exchange",
-    "category": "Finance",
+    "description": "New test app only for DAppStore.",
+    "developer": "ethereumphone.org",
+    "type": "TestType",
+    "category": "TestCategory",
     "images": [
-      "QmRMgMHmekE8y57u4Hm1BwGhyocx9gXkH1hEHjHL5nJsyR"
+      "QmUyjjPLk6HtaEJUevst4fFYw5dzCtmzJD947TCutMeDEB"
     ],
-    "logo": "QmRMgMHmekE8y57u4Hm1BwGhyocx9gXkH1hEHjHL5nJsyR",
+    "logo": "QmTsxvWRGAAvnwmSLi6ymddKRopXhSEJowLk9UhBp9f4nQ",
     "version": "1.0.0"
   }
