@@ -1,5 +1,5 @@
 import { ipfs, json, JSONValue, log, Value } from "@graphprotocol/graph-ts"
-import { DAppStore, NewApp, UpdateApp, VerifyApp } from "../generated/DAppStore/DAppStore"
+import { DAppStore, NewApp, UpdateApp, VerifyApp, ReleaseApp } from "../generated/DAppStore/DAppStore"
 import { App } from "../generated/schema"
 //import { http } from 'as-http'
 //import { JSON } from "assemblyscript-json"; 
@@ -53,6 +53,7 @@ export function handleNewApp(event: NewApp): void {
       }
     })
   }
+  entity!.status = "submitted"
 
   entity!.save()
 
@@ -121,4 +122,15 @@ export function verifyApp(event: VerifyApp): void {
 
   entity!.verified = true;
   entity!.save();
+}
+
+export function releaseApp(event: ReleaseApp): void {
+  entity = App.load(event.params.appID.toString())
+
+  // Entities only exist after they have been saved to the store;
+  // `null` checks allow to create entities on demand
+  if (entity) {
+    entity!.status = "released";
+    entity!.save();
+  }
 }

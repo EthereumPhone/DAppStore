@@ -16,6 +16,7 @@ contract DAppStore is Initializable {
 
     event NewApp(uint appID, address appOwner, string appName, string appIPFSHash, string appAddData);
     event UpdateApp(uint appID, address appOwner, string appName, string appIPFSHash, string appAddData);
+    event ReleaseApp(uint appID);
     event VerifyApp(uint appID);
 
     modifier _onlyOwner {
@@ -39,12 +40,13 @@ contract DAppStore is Initializable {
     }
 
     function submitDApp(string memory _name, string memory _ipfsHash, string memory _additionalData) public payable {
-        require(msg.value == amountToPay, "Ether for lockup required");
+        //require(msg.value == amountToPay, "Ether for lockup required");
         appOwners[appID] = msg.sender;
         appName[appID] = _name;
         appIPFSHash[appID] = _ipfsHash;
         appAddData[appID] = _additionalData;
         submitTime[appID] = block.timestamp;
+        emit NewApp(appID, msg.sender, appName[appID], appIPFSHash[appID], appAddData[appID]);
         appID = appID + 1;
     }
 
@@ -66,7 +68,7 @@ contract DAppStore is Initializable {
             The test-version on rinkeby does check for 48h passed.
          */
         //require(submitTime[_appID]+172800<block.timestamp, "DApp not passed 48h yet");
-        emit NewApp(_appID, msg.sender, appName[_appID], appIPFSHash[_appID], appAddData[_appID]);
+        emit ReleaseApp(_appID);
         payable(msg.sender).transfer(amountToPay);
     }
 

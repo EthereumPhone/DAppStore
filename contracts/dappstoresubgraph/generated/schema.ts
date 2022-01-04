@@ -26,6 +26,7 @@ export class App extends Entity {
     this.set("logo", Value.fromString(""));
     this.set("version", Value.fromString(""));
     this.set("images", Value.fromStringArray(new Array(0)));
+    this.set("status", Value.fromString(""));
   }
 
   save(): void {
@@ -151,5 +152,14 @@ export class App extends Entity {
 
   set verified(value: boolean) {
     this.set("verified", Value.fromBoolean(value));
+  }
+
+  get status(): string {
+    let value = this.get("status");
+    return value!.toString();
+  }
+
+  set status(value: string) {
+    this.set("status", Value.fromString(value));
   }
 }

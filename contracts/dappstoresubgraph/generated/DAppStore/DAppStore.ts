@@ -44,6 +44,24 @@ export class NewApp__Params {
   }
 }
 
+export class ReleaseApp extends ethereum.Event {
+  get params(): ReleaseApp__Params {
+    return new ReleaseApp__Params(this);
+  }
+}
+
+export class ReleaseApp__Params {
+  _event: ReleaseApp;
+
+  constructor(event: ReleaseApp) {
+    this._event = event;
+  }
+
+  get appID(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class UpdateApp extends ethereum.Event {
   get params(): UpdateApp__Params {
     return new UpdateApp__Params(this);

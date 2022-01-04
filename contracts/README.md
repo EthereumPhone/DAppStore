@@ -11,5 +11,5 @@ Contracts for the DAppStore
 `npx hardhat test`
 
 ## Test Proxy
-A test proxy has been deployed on rinkeby at: 0xEE8C5985EAbF48b54d8e1F6cBF29BEf2cE3d0396
+A test proxy has been deployed on rinkeby at: 0xC1f90978F2b8EA15cCaD5f8A9b4E2453301d4bc6
 And the API is on: https://api.thegraph.com/subgraphs/name/markusbug/dapp-store

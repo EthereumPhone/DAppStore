@@ -11,4 +11,5 @@ type App @entity {
   version: String!
   images: [String!]!
   verified: Boolean!
+  status: String!
 }

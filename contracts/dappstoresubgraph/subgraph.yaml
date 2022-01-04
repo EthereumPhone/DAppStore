@@ -6,7 +6,7 @@ dataSources:
     name: DAppStore
     network: rinkeby
     source:
-      address: "0xEE8C5985EAbF48b54d8e1F6cBF29BEf2cE3d0396"
+      address: "0xC1f90978F2b8EA15cCaD5f8A9b4E2453301d4bc6"
       abi: DAppStore
       startBlock: 9790470
     mapping:
