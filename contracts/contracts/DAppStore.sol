@@ -18,6 +18,7 @@ contract DAppStore is Initializable {
     event UpdateApp(uint appID, address appOwner, string appName, string appIPFSHash, string appAddData);
     event ReleaseApp(uint appID);
     event VerifyApp(uint appID);
+    event DeleteApp(uint appID);
 
     modifier _onlyOwner {
         require (msg.sender == owner, "Only owner");
@@ -76,6 +77,15 @@ contract DAppStore is Initializable {
         require(appVerified[_appID] == false, "Already verified");
         appVerified[_appID] = true;
         emit VerifyApp(_appID);
+    }
+
+    function deleteApp(uint _appID) public _onlyOwner {
+        emit DeleteApp(_appID);
+    }
+
+    function transferAppOwner(address _newOwner, uint _appID) public {
+        require(appOwners[_appID] == msg.sender, "Not owner of dapp");
+        appOwners[_appID] = _newOwner;
     }
 
 }

@@ -10,6 +10,24 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class DeleteApp extends ethereum.Event {
+  get params(): DeleteApp__Params {
+    return new DeleteApp__Params(this);
+  }
+}
+
+export class DeleteApp__Params {
+  _event: DeleteApp;
+
+  constructor(event: DeleteApp) {
+    this._event = event;
+  }
+
+  get appID(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class NewApp extends ethereum.Event {
   get params(): NewApp__Params {
     return new NewApp__Params(this);
@@ -216,6 +234,36 @@ export class DAppStore extends ethereum.SmartContract {
   }
 }
 
+export class DeleteAppCall extends ethereum.Call {
+  get inputs(): DeleteAppCall__Inputs {
+    return new DeleteAppCall__Inputs(this);
+  }
+
+  get outputs(): DeleteAppCall__Outputs {
+    return new DeleteAppCall__Outputs(this);
+  }
+}
+
+export class DeleteAppCall__Inputs {
+  _call: DeleteAppCall;
+
+  constructor(call: DeleteAppCall) {
+    this._call = call;
+  }
+
+  get _appID(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class DeleteAppCall__Outputs {
+  _call: DeleteAppCall;
+
+  constructor(call: DeleteAppCall) {
+    this._call = call;
+  }
+}
+
 export class InitializeCall extends ethereum.Call {
   get inputs(): InitializeCall__Inputs {
     return new InitializeCall__Inputs(this);
@@ -310,6 +358,40 @@ export class SubmitDAppCall__Outputs {
   _call: SubmitDAppCall;
 
   constructor(call: SubmitDAppCall) {
+    this._call = call;
+  }
+}
+
+export class TransferAppOwnerCall extends ethereum.Call {
+  get inputs(): TransferAppOwnerCall__Inputs {
+    return new TransferAppOwnerCall__Inputs(this);
+  }
+
+  get outputs(): TransferAppOwnerCall__Outputs {
+    return new TransferAppOwnerCall__Outputs(this);
+  }
+}
+
+export class TransferAppOwnerCall__Inputs {
+  _call: TransferAppOwnerCall;
+
+  constructor(call: TransferAppOwnerCall) {
+    this._call = call;
+  }
+
+  get _newOwner(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _appID(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+}
+
+export class TransferAppOwnerCall__Outputs {
+  _call: TransferAppOwnerCall;
+
+  constructor(call: TransferAppOwnerCall) {
     this._call = call;
   }
 }

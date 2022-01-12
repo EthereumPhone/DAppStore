@@ -1,5 +1,5 @@
-import { ipfs, json, JSONValue, log, Value } from "@graphprotocol/graph-ts"
-import { DAppStore, NewApp, UpdateApp, VerifyApp, ReleaseApp } from "../generated/DAppStore/DAppStore"
+import { ipfs, json, store, Value } from "@graphprotocol/graph-ts"
+import { DAppStore, NewApp, UpdateApp, VerifyApp, ReleaseApp, DeleteApp } from "../generated/DAppStore/DAppStore"
 import { App } from "../generated/schema"
 //import { http } from 'as-http'
 //import { JSON } from "assemblyscript-json"; 
@@ -95,6 +95,7 @@ export function handleUpdateApp(event: UpdateApp): void {
       }
       */
       if (entity !== null && !entry.key.startsWith("images")) {
+        //console.log(entry.key + " : " + entry.value.toString())
         entity!.set(entry.key, Value.fromString(entry.value.toString()));
       }
       if (entry.key.startsWith("images")) {
@@ -132,5 +133,15 @@ export function releaseApp(event: ReleaseApp): void {
   if (entity) {
     entity!.status = "released";
     entity!.save();
+  }
+}
+
+export function deleteApp(event: DeleteApp): void {
+  entity = App.load(event.params.appID.toString())
+
+  // Entities only exist after they have been saved to the store;
+  // `null` checks allow to create entities on demand
+  if (entity) {
+    store.remove("App", event.params.appID.toString())
   }
 }

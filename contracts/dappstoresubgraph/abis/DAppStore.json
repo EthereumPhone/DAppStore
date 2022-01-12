@@ -7,6 +7,19 @@
 				"internalType": "uint256",
 				"name": "appID",
 				"type": "uint256"
+			}
+		],
+		"name": "DeleteApp",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "appID",
+				"type": "uint256"
 			},
 			{
 				"indexed": false,
@@ -133,6 +146,19 @@
 				"type": "uint256"
 			}
 		],
+		"name": "deleteApp",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_appID",
+				"type": "uint256"
+			}
+		],
 		"name": "getDAppData",
 		"outputs": [
 			{
@@ -231,6 +257,24 @@
 		"name": "submitDApp",
 		"outputs": [],
 		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_newOwner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_appID",
+				"type": "uint256"
+			}
+		],
+		"name": "transferAppOwner",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
