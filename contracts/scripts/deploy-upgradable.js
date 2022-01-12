@@ -15,7 +15,7 @@ async function main() {
 
   // We get the contract to deploy
   const DAppStore = await ethers.getContractFactory("DAppStore");
-  const dAppStore = await upgrades.deployProxy(DAppStore, [1000])
+  const dAppStore = await upgrades.deployProxy(DAppStore, [1000, ["0x2247d5d238d0f9d37184d8332aE0289d1aD9991b", "0x3a4e6eD8B0F02BFBfaA3C6506Af2DB939eA5798c"]])
 
   await dAppStore.deployed();
 

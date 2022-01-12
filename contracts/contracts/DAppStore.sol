@@ -2,9 +2,11 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract DAppStore is Initializable {
-    address public owner;
+contract DAppStore is Initializable, AccessControl {
+    
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     uint256 public appID;
     uint public amountToPay;
     mapping(uint => address) appOwners;
@@ -20,15 +22,11 @@ contract DAppStore is Initializable {
     event VerifyApp(uint appID);
     event DeleteApp(uint appID);
 
-    modifier _onlyOwner {
-        require (msg.sender == owner, "Only owner");
-        _;
-    }
-
-    function initialize(uint _amountToPay) public initializer {
+    function initialize(uint _amountToPay, address[] calldata admins) public initializer {
         amountToPay = _amountToPay;
-        // TODO: Replace with real address
-        owner = msg.sender;
+        for(uint i = 0;i<admins.length;i++) {
+            _setupRole(ADMIN_ROLE, admins[i]);
+        }
         appID = 0;
     }
 
@@ -73,19 +71,22 @@ contract DAppStore is Initializable {
         payable(msg.sender).transfer(amountToPay);
     }
 
-    function verifyDApp(uint _appID) public _onlyOwner {
+    function verifyDApp(uint _appID) public onlyRole(ADMIN_ROLE) {
         require(appVerified[_appID] == false, "Already verified");
         appVerified[_appID] = true;
         emit VerifyApp(_appID);
     }
 
-    function deleteApp(uint _appID) public _onlyOwner {
+    function deleteApp(uint _appID) public {
         emit DeleteApp(_appID);
     }
 
     function transferAppOwner(address _newOwner, uint _appID) public {
-        require(appOwners[_appID] == msg.sender, "Not owner of dapp");
         appOwners[_appID] = _newOwner;
+    }
+    
+    function addAdmin(address _newAdmin) public onlyRole(ADMIN_ROLE) {
+        grantRole(ADMIN_ROLE, _newAdmin);
     }
 
 }
