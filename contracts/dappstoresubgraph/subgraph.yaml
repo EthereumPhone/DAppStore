@@ -1,6 +1,8 @@
 specVersion: 0.0.2
 schema:
   file: ./schema.graphql
+features:
+  - ipfsOnEthereumContracts
 dataSources:
   - kind: ethereum
     name: DAppStore
@@ -8,7 +10,7 @@ dataSources:
     source:
       address: "0xB01C6F9A9D63F7a1750591575f7a761e4B9b8D43"
       abi: DAppStore
-      startBlock: 9790470
+      startBlock: 9983294
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
