@@ -1,0 +1,18 @@
+name: Build
+on:
+  pull_request:
+  push:
+    branches: master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Build the app
+        run: ./gradlew assembleDebug
+      - name: Publish APK
+        uses: actions/upload-artifact@master
+          with:
+            name: dappstore_debug.apk
+            path: app/build/outputs/apk/debug/app-debug.apk
