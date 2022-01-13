@@ -82,6 +82,7 @@ contract DAppStore is Initializable, AccessControl {
     }
 
     function transferAppOwner(address _newOwner, uint _appID) public {
+        require(appOwners[_appID] == msg.sender, "Not owner");
         appOwners[_appID] = _newOwner;
     }
     
