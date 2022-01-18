@@ -2,7 +2,6 @@ package org.ethereum.dappstore.data
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
-import io.ipfs.kotlin.defaults.InfuraIPFS
 import org.ethereum.dappstore.AppQuery
 import org.ethereum.dappstore.AppsQuery
 import org.ethereum.dappstore.data.models.AppInfo
@@ -49,13 +48,13 @@ object DataRepository {
         .serverUrl("https://api.thegraph.com/subgraphs/name/markusbug/dappstore-rinkeby")
         .build()
 
-    private val ipfs = InfuraIPFS()
+    private val ipfs = "https://gateway.pinata.cloud/ipfs/"
 
     suspend fun fetchApps(): List<AppInfo>? {
         // TODO memory / disk cache
         // TODO GQL fragment
         return apolloClient.query(AppsQuery()).await().data?.apps?.map {
-            val img = ipfs.repo.ipfs.config.base_url + "cat?arg=" + it.logo
+            val img = ipfs + it.logo
             AppInfo(
                 it.id,
                 it.appName,
@@ -69,10 +68,8 @@ object DataRepository {
 
     suspend fun fetchAppById(id: String): AppInfo? {
         return apolloClient.query(AppQuery(id)).await().data?.app?.let {
-            //val img = ipfs.repo.ipfs.config.base_url + "cat?arg=" + it.logo
-            //val apk = ipfs.repo.ipfs.config.base_url + "get?arg=" + it.appIPFSHash
-            val img = "https://gateway.pinata.cloud/ipfs/" + it.logo
-            val apk = "https://gateway.pinata.cloud/ipfs/" + it.appIPFSHash
+            val img = ipfs + it.logo
+            val apk = ipfs+ it.appIPFSHash
             AppInfo(
                 it.id,
                 it.appName,
