@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Context.DOWNLOAD_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ApplicationInfo
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
@@ -37,18 +38,6 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat.startActivity
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 class AppDownloader {
 
     private var downloadID: Long = 0
@@ -61,6 +50,11 @@ class AppDownloader {
                 input.copyTo(output)
             }
         }
+    }
+
+    fun isUserApp(ai: ApplicationInfo): Boolean {
+        val mask = ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP
+        return ai.flags and mask == 0
     }
 
     fun downloadApk(context: Context, info: AppInfo) {
@@ -90,26 +84,55 @@ class AppDownloader {
             queryStatus(context, downloadmanager)
         }
     }
+    fun callRequestInstallApp(context: Context, file: File) {
+        val promptInstall = Intent(Intent.ACTION_VIEW)
+        val apkURI = FileProvider.getUriForFile(
+            context, context.applicationContext
+                .packageName.toString() + ".provider", file
+        )
+        promptInstall.setDataAndType(apkURI, "application/vnd.android.package-archive")
+        promptInstall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        context.startActivity(promptInstall)
+    }
 
     fun installApk(context: Context, info: AppInfo) {
-
-
         val file = File("/sdcard/Download", info.name.replace(" ", "")+".apk")
-        val apkLength = file.length()
-        val commArray : Array<String> = arrayOf("/bin/sh", "-c", "cat ${file.absolutePath} | pm install -S $apkLength")
-        //val command = "cat ${file.absolutePath} | pm install -S $apkLength"
-        val pr = Runtime.getRuntime().exec(commArray);
-        pr.waitFor()
+        val app: ApplicationInfo =
+            context.packageManager.getApplicationInfo(context.packageName, 0)
+
+        if (isUserApp(app)) {
+            // Not installed on ethOS. Requires special install
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (!context.packageManager.canRequestPackageInstalls()) {
+                    val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).setData(Uri.parse(String.format("package:%s", context.packageName)))
+                    context.startActivity(intent)
+                    Toast.makeText(context, "After enabling this setting, press Install App again.", Toast.LENGTH_LONG).show()
+                } else {
+                    callRequestInstallApp(context, file);
+                }
+            } else {
+                callRequestInstallApp(context, file);
+            }
+        } else {
+            // Is a system-app, probably installed on ethOS.
+            val apkLength = file.length()
+            val commArray : Array<String> = arrayOf("/bin/sh", "-c", "cat ${file.absolutePath} | pm install -S $apkLength")
+            //val command = "cat ${file.absolutePath} | pm install -S $apkLength"
+            val pr = Runtime.getRuntime().exec(commArray);
+            pr.waitFor()
 
 
-        val errorString = pr.errorStream.bufferedReader().use { it.readLine() }
-        val successString = pr.inputStream.bufferedReader().use { it.readLine() }
+            val errorString = pr.errorStream.bufferedReader().use { it.readLine() }
+            val successString = pr.inputStream.bufferedReader().use { it.readLine() }
 
-        println("Error: $errorString")
-        print("Success: $successString")
-
-        Toast.makeText(context, "Successfully installed ${info.name}", Toast.LENGTH_SHORT).show()
-
+            println("Error: $errorString")
+            print("Success: $successString")
+            if (successString.startsWith("Success")) {
+                Toast.makeText(context, "Successfully installed ${info.name}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Something went wrong. Try again.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private val onDownloadComplete: BroadcastReceiver = object : BroadcastReceiver() {
