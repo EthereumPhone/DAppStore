@@ -28,12 +28,12 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: dappstore_systemapp_debug.apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: app/build/outputs/apk/system/app-system-debug.apk
     - name: Build Regular APK with Gradle
       run: ./gradlew assembleRegularDebug
     - name: Publish User-App APK
       uses: actions/upload-artifact@master
       with:
         name: dappstore_userapp_debug.apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: app/build/outputs/apk/regular/app-regular-debug.apk
     
