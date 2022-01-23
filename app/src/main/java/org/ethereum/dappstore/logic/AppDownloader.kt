@@ -126,7 +126,7 @@ class AppDownloader {
             val successString = pr.inputStream.bufferedReader().use { it.readLine() }
 
             println("Error: $errorString")
-            print("Success: $successString")
+            println("Success: $successString")
             if (successString.startsWith("Success")) {
                 Toast.makeText(context, "Successfully installed ${info.name}", Toast.LENGTH_SHORT).show()
             } else {

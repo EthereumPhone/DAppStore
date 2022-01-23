@@ -18,7 +18,20 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        manifestPlaceholders["userID"] = "android.uid.system"
     }
+    flavorDimensions "version"
+    productFlavors {
+        system {
+            dimension = "version"
+            manifestPlaceholders["userID"] = "android.uid.system"
+        }
+        regular {
+            dimension = "version"
+            manifestPlaceholders["userID"] = ""
+        }
+    }
+
 
     buildTypes {
         release {
