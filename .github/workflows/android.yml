@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, testMultipleBuids ]
   pull_request:
     branches: [ main ]
 
@@ -22,10 +22,18 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build Debug APK with Gradle
-      run: ./gradlew assembleDebug
-    - name: Publish APK
+    - name: Build System-App APK with Gradle
+      run: ./gradlew assembleSystemDebug
+    - name: Publish System-App APK
       uses: actions/upload-artifact@master
       with:
-        name: dappstore_debug.apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+        name: dappstore_systemapp_debug.apk
+        path: ./app/build/outputs/apk/system/debug/app-system-debug.apk
+    - name: Build Regular APK with Gradle
+      run: ./gradlew assembleRegularDebug
+    - name: Publish User-App APK
+      uses: actions/upload-artifact@master
+      with:
+        name: dappstore_userapp_debug.apk
+        path: ./app/build/outputs/apk/regular/debug/app-regular-debug.apk
+    
