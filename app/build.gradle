@@ -11,14 +11,13 @@ android {
         applicationId "org.ethereum.dappstore"
         minSdk 21
         targetSdk 31
-        versionCode 1
+        versionCode 6
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
         }
-        manifestPlaceholders["userID"] = "android.uid.system"
     }
     flavorDimensions "version"
     productFlavors {

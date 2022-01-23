@@ -8,9 +8,9 @@ dataSources:
     name: DAppStore
     network: rinkeby
     source:
-      address: "0xB01C6F9A9D63F7a1750591575f7a761e4B9b8D43"
+      address: "0xB35D9Ba7F80E587a92512AeA671438Cf193C2E80"
       abi: DAppStore
-      startBlock: 9983294
+      startBlock: 10042395
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -18,6 +18,10 @@ dataSources:
       entities:
         - NewApp
         - UpdateApp
+        - VerifyApp
+        - ReleaseApp
+        - DeleteApp
+        - StoreUpdate
       abis:
         - name: DAppStore
           file: ./abis/DAppStore.json
@@ -26,4 +30,12 @@ dataSources:
           handler: handleNewApp
         - event: UpdateApp(uint256,address,string,string,string)
           handler: handleUpdateApp
+        - event: VerifyApp(uint256)
+          handler: verifyApp
+        - event: ReleaseApp(uint256)
+          handler: releaseApp
+        - event: DeleteApp(uint256)
+          handler: deleteApp
+        - event: StoreUpdate(uint256,string)
+          handler: newDAppStore
       file: ./src/mapping.ts

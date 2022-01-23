@@ -44,13 +44,6 @@ class AppDownloader {
     private var appInfo: AppInfo? = null
     private var absoluteFilePath: String? = null
 
-    fun download(link: String, path: String) {
-        URL(link).openStream().use { input ->
-            FileOutputStream(File(path)).use { output ->
-                input.copyTo(output)
-            }
-        }
-    }
 
     fun isUserApp(ai: ApplicationInfo): Boolean {
         val mask = ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP

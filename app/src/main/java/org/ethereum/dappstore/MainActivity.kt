@@ -1,5 +1,6 @@
 package org.ethereum.dappstore
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,19 +13,26 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.*
 import org.ethereum.dappstore.ui.Screen
 import org.ethereum.dappstore.ui.components.*
 import org.ethereum.dappstore.ui.theme.DAppStoreTheme
 import org.ethereum.dappstore.ui.theme.Selected
 import org.ethereum.dappstore.ui.theme.Unselected
+import org.ethereum.dappstore.logic.AppUpdater
 
 class MainActivity : FragmentActivity() {
 
     private val bottomNavScreens =
         listOf(Screen.MainNav.Home, Screen.MainNav.User, Screen.MainNav.Settings)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val context: Context = this;
+        runBlocking {
+            launch {
+                AppUpdater().checkForUpdate(context)
+            }
+        }
         setContent {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()

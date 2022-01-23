@@ -158,6 +158,28 @@ export class RoleRevoked__Params {
   }
 }
 
+export class StoreUpdate extends ethereum.Event {
+  get params(): StoreUpdate__Params {
+    return new StoreUpdate__Params(this);
+  }
+}
+
+export class StoreUpdate__Params {
+  _event: StoreUpdate;
+
+  constructor(event: StoreUpdate) {
+    this._event = event;
+  }
+
+  get versionCode(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get ipfsHash(): string {
+    return this._event.parameters[1].value.toString();
+  }
+}
+
 export class UpdateApp extends ethereum.Event {
   get params(): UpdateApp__Params {
     return new UpdateApp__Params(this);
@@ -252,29 +274,6 @@ export class DAppStore extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
-  DEFAULT_ADMIN_ROLE(): Bytes {
-    let result = super.call(
-      "DEFAULT_ADMIN_ROLE",
-      "DEFAULT_ADMIN_ROLE():(bytes32)",
-      []
-    );
-
-    return result[0].toBytes();
-  }
-
-  try_DEFAULT_ADMIN_ROLE(): ethereum.CallResult<Bytes> {
-    let result = super.tryCall(
-      "DEFAULT_ADMIN_ROLE",
-      "DEFAULT_ADMIN_ROLE():(bytes32)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBytes());
-  }
-
   amountToPay(): BigInt {
     let result = super.call("amountToPay", "amountToPay():(uint256)", []);
 
@@ -303,6 +302,52 @@ export class DAppStore extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  currentDAppStoreIPFSHash(): string {
+    let result = super.call(
+      "currentDAppStoreIPFSHash",
+      "currentDAppStoreIPFSHash():(string)",
+      []
+    );
+
+    return result[0].toString();
+  }
+
+  try_currentDAppStoreIPFSHash(): ethereum.CallResult<string> {
+    let result = super.tryCall(
+      "currentDAppStoreIPFSHash",
+      "currentDAppStoreIPFSHash():(string)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
+  DEFAULT_ADMIN_ROLE(): Bytes {
+    let result = super.call(
+      "DEFAULT_ADMIN_ROLE",
+      "DEFAULT_ADMIN_ROLE():(bytes32)",
+      []
+    );
+
+    return result[0].toBytes();
+  }
+
+  try_DEFAULT_ADMIN_ROLE(): ethereum.CallResult<Bytes> {
+    let result = super.tryCall(
+      "DEFAULT_ADMIN_ROLE",
+      "DEFAULT_ADMIN_ROLE():(bytes32)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
   getDAppData(_appID: BigInt): DAppStore__getDAppDataResultValue0Struct {
@@ -736,6 +781,40 @@ export class UpdateDAppCall__Outputs {
   _call: UpdateDAppCall;
 
   constructor(call: UpdateDAppCall) {
+    this._call = call;
+  }
+}
+
+export class UpdateStoreCall extends ethereum.Call {
+  get inputs(): UpdateStoreCall__Inputs {
+    return new UpdateStoreCall__Inputs(this);
+  }
+
+  get outputs(): UpdateStoreCall__Outputs {
+    return new UpdateStoreCall__Outputs(this);
+  }
+}
+
+export class UpdateStoreCall__Inputs {
+  _call: UpdateStoreCall;
+
+  constructor(call: UpdateStoreCall) {
+    this._call = call;
+  }
+
+  get _versionCode(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _ipfsHash(): string {
+    return this._call.inputValues[1].value.toString();
+  }
+}
+
+export class UpdateStoreCall__Outputs {
+  _call: UpdateStoreCall;
+
+  constructor(call: UpdateStoreCall) {
     this._call = call;
   }
 }

@@ -13,3 +13,7 @@ type App @entity {
   verified: Boolean!
   status: String!
 }
+type DAppStore @entity {
+  id: ID!
+  ipfsHash: String!
+}
