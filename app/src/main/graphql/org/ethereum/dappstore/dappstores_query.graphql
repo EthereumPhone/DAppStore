@@ -1,0 +1,6 @@
+query DappStores($first: Int) {
+  dappStores(first: 1) {
+    id
+    ipfsHash
+  }
+}

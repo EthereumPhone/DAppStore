@@ -1,9 +1,10 @@
 import { ipfs, json, store, Value } from "@graphprotocol/graph-ts"
-import { DAppStore, NewApp, UpdateApp, VerifyApp, ReleaseApp, DeleteApp } from "../generated/DAppStore/DAppStore"
-import { App } from "../generated/schema"
+import { NewApp, UpdateApp, VerifyApp, ReleaseApp, DeleteApp, StoreUpdate } from "../generated/DAppStore/DAppStore"
+import { App, DAppStore } from "../generated/schema"
 //import { http } from 'as-http'
 //import { JSON } from "assemblyscript-json"; 
 var entity: App | null;
+var dappstoreEntity: DAppStore | null;
 let allArr: string[] = []
 export function handleNewApp(event: NewApp): void {
   let allImg: Value[] = []
@@ -143,5 +144,17 @@ export function deleteApp(event: DeleteApp): void {
   // `null` checks allow to create entities on demand
   if (entity) {
     store.remove("App", event.params.appID.toString())
+  }
+}
+
+export function newDAppStore(event: StoreUpdate): void {
+  dappstoreEntity = new DAppStore(event.params.versionCode.toString());
+  dappstoreEntity!.ipfsHash = event.params.ipfsHash;
+  dappstoreEntity!.save();
+
+  var oldID = event.params.versionCode.toI64()-1
+  var oldEntity = DAppStore.load(oldID.toString())
+  if (oldEntity) {
+    store.remove("DAppStore", oldID.toString());
   }
 }

@@ -9,6 +9,8 @@ contract DAppStore is Initializable, AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     uint256 public appID;
     uint public amountToPay;
+    uint versionCode;
+    string public currentDAppStoreIPFSHash;
     mapping(uint => address) appOwners;
     mapping(uint => string) appName;
     mapping(uint => string) appIPFSHash;
@@ -21,6 +23,7 @@ contract DAppStore is Initializable, AccessControl {
     event ReleaseApp(uint appID);
     event VerifyApp(uint appID);
     event DeleteApp(uint appID);
+    event StoreUpdate(uint versionCode, string ipfsHash);
 
     function initialize(uint _amountToPay, address[] calldata admins) public initializer {
         amountToPay = _amountToPay;
@@ -28,6 +31,7 @@ contract DAppStore is Initializable, AccessControl {
             _setupRole(ADMIN_ROLE, admins[i]);
         }
         appID = 0;
+        versionCode = 0;
     }
 
     struct App {
@@ -89,5 +93,10 @@ contract DAppStore is Initializable, AccessControl {
     function addAdmin(address _newAdmin) public onlyRole(ADMIN_ROLE) {
         grantRole(ADMIN_ROLE, _newAdmin);
     }
-
+    function updateStore(uint _versionCode, string calldata _ipfsHash) public onlyRole(ADMIN_ROLE) {
+        require(_versionCode>versionCode);
+        versionCode = _versionCode;
+        currentDAppStoreIPFSHash = _ipfsHash;
+        emit StoreUpdate(versionCode, _ipfsHash);
+    }
 }

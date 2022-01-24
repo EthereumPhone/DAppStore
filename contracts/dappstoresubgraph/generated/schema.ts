@@ -163,3 +163,47 @@ export class App extends Entity {
     this.set("status", Value.fromString(value));
   }
 }
+
+export class DAppStore extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("ipfsHash", Value.fromString(""));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save DAppStore entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save DAppStore entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("DAppStore", id.toString(), this);
+    }
+  }
+
+  static load(id: string): DAppStore | null {
+    return changetype<DAppStore | null>(store.get("DAppStore", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get ipfsHash(): string {
+    let value = this.get("ipfsHash");
+    return value!.toString();
+  }
+
+  set ipfsHash(value: string) {
+    this.set("ipfsHash", Value.fromString(value));
+  }
+}
