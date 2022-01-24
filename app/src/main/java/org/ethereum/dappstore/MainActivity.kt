@@ -8,12 +8,12 @@ import androidx.compose.material.*
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import kotlinx.coroutines.*
 import org.ethereum.dappstore.ui.Screen
 import org.ethereum.dappstore.ui.components.*
 import org.ethereum.dappstore.ui.theme.DAppStoreTheme
@@ -25,13 +25,12 @@ class MainActivity : FragmentActivity() {
 
     private val bottomNavScreens =
         listOf(Screen.MainNav.Home, Screen.MainNav.User, Screen.MainNav.Settings)
+    private val updater = AppUpdater()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val context: Context = this;
-        runBlocking {
-            launch {
-                AppUpdater().checkForUpdate(context)
-            }
+        lifecycleScope.launchWhenStarted {
+            updater.checkForUpdate(context)
         }
         setContent {
             val navController = rememberNavController()

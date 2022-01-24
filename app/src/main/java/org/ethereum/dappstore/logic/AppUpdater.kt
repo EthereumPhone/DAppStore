@@ -29,8 +29,6 @@ class AppUpdater {
                         iconUrl = ""
                     )
                     AppDownloader().downloadApk(context, appInfo)
-                } else {
-                    Toast.makeText(context, "DAppStore is up to date :)", Toast.LENGTH_SHORT).show()
                 }
             }
         }
